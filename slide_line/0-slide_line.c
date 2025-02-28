@@ -16,55 +16,57 @@ int slide_line(int *line, size_t size, int direction)
 
     if (direction == SLIDE_LEFT)
     {
-        /* First merge identical numbers */
-        for (i = 0; i < size - 1; i++)
-        {
-            if (line[i] != 0 && line[i] == line[i + 1])
-            {
-                line[i] *= 2;
-                line[i + 1] = 0;
-            }
-        }
-
-        /* Then compact non-zero numbers to the left */
+        /* First compact non-zero numbers to the left */
         pos = 0;
         for (i = 0; i < size; i++)
         {
             if (line[i] != 0)
             {
+                line[pos] = line[i];
                 if (i != pos)
-                {
-                    line[pos] = line[i];
                     line[i] = 0;
-                }
                 pos++;
+            }
+        }
+
+        /* Then merge identical numbers */
+        for (i = 0; i < size - 1; i++)
+        {
+            if (line[i] != 0 && line[i] == line[i + 1])
+            {
+                line[i] *= 2;
+                /* Shift the rest of the numbers left */
+                for (pos = i + 1; pos < size - 1; pos++)
+                    line[pos] = line[pos + 1];
+                line[size - 1] = 0;
             }
         }
     }
     else /* SLIDE_RIGHT */
     {
-        /* First merge identical numbers from right to left */
-        for (i = size - 1; i > 0; i--)
-        {
-            if (line[i] != 0 && line[i] == line[i - 1])
-            {
-                line[i] *= 2;
-                line[i - 1] = 0;
-            }
-        }
-
-        /* Then compact non-zero numbers to the right */
+        /* First compact non-zero numbers to the right */
         pos = size - 1;
         for (i = size; i > 0; i--)
         {
             if (line[i - 1] != 0)
             {
+                line[pos] = line[i - 1];
                 if (i - 1 != pos)
-                {
-                    line[pos] = line[i - 1];
                     line[i - 1] = 0;
-                }
                 pos--;
+            }
+        }
+
+        /* Then merge identical numbers */
+        for (i = size - 1; i > 0; i--)
+        {
+            if (line[i] != 0 && line[i] == line[i - 1])
+            {
+                line[i] *= 2;
+                /* Shift the rest of the numbers right */
+                for (pos = i - 1; pos > 0; pos--)
+                    line[pos] = line[pos - 1];
+                line[0] = 0;
             }
         }
     }
