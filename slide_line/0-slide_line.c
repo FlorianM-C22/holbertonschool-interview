@@ -10,7 +10,6 @@
 int slide_line(int *line, size_t size, int direction)
 {
     size_t i, j, write_idx;
-    int merged;
 
     /* Check if direction is valid */
     if (direction != SLIDE_LEFT && direction != SLIDE_RIGHT)
