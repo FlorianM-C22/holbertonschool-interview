@@ -9,69 +9,62 @@
  */
 int slide_line(int *line, size_t size, int direction)
 {
-    size_t i, j, write_idx;
+    size_t i, pos;
 
-    /* Check if direction is valid */
-    if (direction != SLIDE_LEFT && direction != SLIDE_RIGHT)
+    if (!line || (direction != SLIDE_LEFT && direction != SLIDE_RIGHT))
         return (0);
 
-    /* Handle sliding left */
     if (direction == SLIDE_LEFT)
     {
-        /* First pass: compress numbers to the left */
-        write_idx = 0;
-        for (i = 0; i < size; i++)
-        {
-            if (line[i] != 0)
-                line[write_idx++] = line[i];
-        }
-        /* Fill remaining positions with zeros */
-        for (i = write_idx; i < size; i++)
-            line[i] = 0;
-
-        /* Second pass: merge identical numbers */
+        /* First merge identical numbers */
         for (i = 0; i < size - 1; i++)
         {
             if (line[i] != 0 && line[i] == line[i + 1])
             {
                 line[i] *= 2;
                 line[i + 1] = 0;
-                /* Shift remaining numbers left */
-                for (j = i + 2; j < size; j++)
+            }
+        }
+
+        /* Then compact non-zero numbers to the left */
+        pos = 0;
+        for (i = 0; i < size; i++)
+        {
+            if (line[i] != 0)
+            {
+                if (i != pos)
                 {
-                    line[j - 1] = line[j];
+                    line[pos] = line[i];
+                    line[i] = 0;
                 }
-                line[size - 1] = 0;
+                pos++;
             }
         }
     }
-    /* Handle sliding right */
-    else
+    else /* SLIDE_RIGHT */
     {
-        /* First pass: compress numbers to the right */
-        write_idx = size - 1;
-        for (i = size; i > 0; i--)
-        {
-            if (line[i - 1] != 0)
-                line[write_idx--] = line[i - 1];
-        }
-        /* Fill remaining positions with zeros */
-        for (i = 0; i <= write_idx; i++)
-            line[i] = 0;
-
-        /* Second pass: merge identical numbers */
+        /* First merge identical numbers from right to left */
         for (i = size - 1; i > 0; i--)
         {
             if (line[i] != 0 && line[i] == line[i - 1])
             {
                 line[i] *= 2;
                 line[i - 1] = 0;
-                /* Shift remaining numbers right */
-                for (j = i - 1; j > 0; j--)
+            }
+        }
+
+        /* Then compact non-zero numbers to the right */
+        pos = size - 1;
+        for (i = size; i > 0; i--)
+        {
+            if (line[i - 1] != 0)
+            {
+                if (i - 1 != pos)
                 {
-                    line[j] = line[j - 1];
+                    line[pos] = line[i - 1];
+                    line[i - 1] = 0;
                 }
-                line[0] = 0;
+                pos--;
             }
         }
     }
