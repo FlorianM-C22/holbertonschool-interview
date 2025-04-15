@@ -1,4 +1,11 @@
 #!/usr/bin/python3
+"""
+Lockboxes Module
+
+This module provides a function to determine if all boxes in a sequence
+can be opened, given that each box may contain keys to other boxes.
+"""
+
 
 def canUnlockAll(boxes):
     """
