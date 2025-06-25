@@ -44,11 +44,3 @@ jesse@ubuntu:~/$ ./0\_main.py
 6
 jesse@ubuntu:~/$
 ```
-
-Visual representation of the walls `[0, 1, 0, 2, 0, 3, 0, 4]`
-
-![](https://s3.eu-west-3.amazonaws.com/hbtn.intranet/uploads/medias/2021/4/85ef782020ac6efdc7004b62ea86724a552285b4.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIA4MYA5JM5DUTZGMZG%2F20250625%2Feu-west-3%2Fs3%2Faws4_request&X-Amz-Date=20250625T140931Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=9eebd6eea9a380106a7ecc6e97a1c1c966d5735db7439e90522d38cb30a5f40d)
-
-Visual representation of the walls `[2, 0, 0, 4, 0, 0, 1, 0]`
-
-![](https://s3.eu-west-3.amazonaws.com/hbtn.intranet/uploads/medias/2021/4/9a27c3e4e214e55b3c0b8b1439fdc99b4a184ff5.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIA4MYA5JM5DUTZGMZG%2F20250625%2Feu-west-3%2Fs3%2Faws4_request&X-Amz-Date=20250625T140931Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=78b27e779f02c3fe410f6f2f86ee01b84d442c55446799226c0a8ac559d69034)
