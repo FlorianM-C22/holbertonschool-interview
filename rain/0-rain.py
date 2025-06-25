@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 """
 Rain water trapping algorithm.
 Given a list of wall heights, calculate how much water can be retained.
