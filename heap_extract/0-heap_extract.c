@@ -8,50 +8,50 @@
  */
 static heap_t *get_last_node(heap_t *root)
 {
-    heap_t *last = NULL;
-    heap_t **queue;
-    heap_t *temp;
-    heap_t *current;
-    int height = 0;
-    int level;
-    int front = 0, rear = 0;
-    int queue_size = 1;
+	heap_t *last = NULL;
+	heap_t **queue;
+	heap_t *temp;
+	heap_t *current;
+	int height = 0;
+	int level;
+	int front = 0, rear = 0;
+	int queue_size = 1;
 
-    if (!root)
-        return (NULL);
+	if (!root)
+		return (NULL);
 
-    /* Calculate height and count nodes */
-    temp = root;
-    while (temp->left)
-    {
-        height++;
-        temp = temp->left;
-    }
+	/* Calculate height and count nodes */
+	temp = root;
+	while (temp->left)
+	{
+		height++;
+		temp = temp->left;
+	}
 
-    /* Count total nodes to allocate queue */
-    for (level = 0; level <= height; level++)
-        queue_size *= 2;
-    queue_size--;
+	/* Count total nodes to allocate queue */
+	for (level = 0; level <= height; level++)
+		queue_size *= 2;
+	queue_size--;
 
-    queue = malloc(sizeof(heap_t *) * queue_size);
-    if (!queue)
-        return (NULL);
+	queue = malloc(sizeof(heap_t *) * queue_size);
+	if (!queue)
+		return (NULL);
 
-    /* Level-order traversal to find the last node */
-    queue[rear++] = root;
-    while (front < rear)
-    {
-        current = queue[front++];
-        last = current;
+	/* Level-order traversal to find the last node */
+	queue[rear++] = root;
+	while (front < rear)
+	{
+		current = queue[front++];
+		last = current;
 
-        if (current->left)
-            queue[rear++] = current->left;
-        if (current->right)
-            queue[rear++] = current->right;
-    }
+		if (current->left)
+			queue[rear++] = current->left;
+		if (current->right)
+			queue[rear++] = current->right;
+	}
 
-    free(queue);
-    return (last);
+	free(queue);
+	return (last);
 }
 
 /**
@@ -60,26 +60,26 @@ static heap_t *get_last_node(heap_t *root)
  */
 static void heapify_down(heap_t *root)
 {
-    heap_t *largest = root;
-    heap_t *left = root->left;
-    heap_t *right = root->right;
-    int temp;
+	heap_t *largest = root;
+	heap_t *left = root->left;
+	heap_t *right = root->right;
+	int temp;
 
-    /* Find the largest among root, left child, and right child */
-    if (left && left->n > largest->n)
-        largest = left;
+	/* Find the largest among root, left child, and right child */
+	if (left && left->n > largest->n)
+		largest = left;
 
-    if (right && right->n > largest->n)
-        largest = right;
+	if (right && right->n > largest->n)
+		largest = right;
 
-    /* If the largest is not the root, swap and continue heapifying */
-    if (largest != root)
-    {
-        temp = root->n;
-        root->n = largest->n;
-        largest->n = temp;
-        heapify_down(largest);
-    }
+	/* If the largest is not the root, swap and continue heapifying */
+	if (largest != root)
+	{
+		temp = root->n;
+		root->n = largest->n;
+		largest->n = temp;
+		heapify_down(largest);
+	}
 }
 
 /**
@@ -89,44 +89,44 @@ static void heapify_down(heap_t *root)
  */
 int heap_extract(heap_t **root)
 {
-    int value;
-    heap_t *last_node, *parent;
+	int value;
+	heap_t *last_node, *parent;
 
-    if (!root || !*root)
-        return (0);
+	if (!root || !*root)
+		return (0);
 
-    /* Store the value to return */
-    value = (*root)->n;
+	/* Store the value to return */
+	value = (*root)->n;
 
-    /* If this is the only node in the heap */
-    if (!(*root)->left && !(*root)->right)
-    {
-        free(*root);
-        *root = NULL;
-        return (value);
-    }
+	/* If this is the only node in the heap */
+	if (!(*root)->left && !(*root)->right)
+	{
+		free(*root);
+		*root = NULL;
+		return (value);
+	}
 
-    /* Find the last level-order node */
-    last_node = get_last_node(*root);
-    if (!last_node)
-        return (0);
+	/* Find the last level-order node */
+	last_node = get_last_node(*root);
+	if (!last_node)
+		return (0);
 
-    /* Replace root value with last node value */
-    (*root)->n = last_node->n;
+	/* Replace root value with last node value */
+	(*root)->n = last_node->n;
 
-    /* Remove the last node from the tree */
-    parent = last_node->parent;
-    if (parent)
-    {
-        if (parent->left == last_node)
-            parent->left = NULL;
-        else
-            parent->right = NULL;
-    }
-    free(last_node);
+	/* Remove the last node from the tree */
+	parent = last_node->parent;
+	if (parent)
+	{
+		if (parent->left == last_node)
+			parent->left = NULL;
+		else
+			parent->right = NULL;
+	}
+	free(last_node);
 
-    /* Rebuild the heap if necessary */
-    heapify_down(*root);
+	/* Rebuild the heap if necessary */
+	heapify_down(*root);
 
-    return (value);
+	return (value);
 }
