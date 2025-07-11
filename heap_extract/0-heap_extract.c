@@ -9,9 +9,11 @@
 static heap_t *get_last_node(heap_t *root)
 {
     heap_t *last = NULL;
-    int height = 0;
-    int level, i;
     heap_t **queue;
+    heap_t *temp;
+    heap_t *current;
+    int height = 0;
+    int level;
     int front = 0, rear = 0;
     int queue_size = 1;
 
@@ -19,8 +21,12 @@ static heap_t *get_last_node(heap_t *root)
         return (NULL);
 
     /* Calculate height and count nodes */
-    for (heap_t *temp = root; temp->left; temp = temp->left)
+    temp = root;
+    while (temp->left)
+    {
         height++;
+        temp = temp->left;
+    }
 
     /* Count total nodes to allocate queue */
     for (level = 0; level <= height; level++)
@@ -35,7 +41,7 @@ static heap_t *get_last_node(heap_t *root)
     queue[rear++] = root;
     while (front < rear)
     {
-        heap_t *current = queue[front++];
+        current = queue[front++];
         last = current;
 
         if (current->left)
