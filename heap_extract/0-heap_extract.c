@@ -9,32 +9,42 @@
 static heap_t *get_last_node(heap_t *root)
 {
     heap_t *last = NULL;
-    int height, i;
+    int height = 0;
+    int level, i;
+    heap_t **queue;
+    int front = 0, rear = 0;
+    int queue_size = 1;
 
     if (!root)
         return (NULL);
 
-    /* Find the height of the tree */
-    height = 0;
+    /* Calculate height and count nodes */
     for (heap_t *temp = root; temp->left; temp = temp->left)
         height++;
 
-    /* Find the last node using level-order traversal */
-    last = root;
-    for (i = 0; i < height; i++)
+    /* Count total nodes to allocate queue */
+    for (level = 0; level <= height; level++)
+        queue_size *= 2;
+    queue_size--;
+
+    queue = malloc(sizeof(heap_t *) * queue_size);
+    if (!queue)
+        return (NULL);
+
+    /* Level-order traversal to find the last node */
+    queue[rear++] = root;
+    while (front < rear)
     {
-        if (last->right)
-            last = last->right;
-        else if (last->left)
-            last = last->left;
-        else
-            break;
+        heap_t *current = queue[front++];
+        last = current;
+
+        if (current->left)
+            queue[rear++] = current->left;
+        if (current->right)
+            queue[rear++] = current->right;
     }
 
-    /* If we didn't reach a leaf, find the rightmost node at this level */
-    while (last->right)
-        last = last->right;
-
+    free(queue);
     return (last);
 }
 
